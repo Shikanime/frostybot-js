@@ -82,11 +82,6 @@ To start the Frostybot server, use this command:
 frostybot start
 ```
 
-To see the status of the server, use this command:
-```
-frostybot status
-```
-
 #### Enabling the Web GUI interface
 
 To enable the GUI, use the following command:

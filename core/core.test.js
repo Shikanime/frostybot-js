@@ -7,14 +7,6 @@ module.exports = class frostybot_core_test {
 
     constructor() {
 
-        // Outout MOTD
-
-        if (!global.hasOwnProperty('motd')) {
-            var motd = fs.readFileSync(__dirname.substr(0, __dirname.lastIndexOf( '/' ) ) + '/scripts/motd', {encoding:'utf8', flag:'r'});
-            console.log(motd)
-            global['motd'] = true;
-        }
-
         // Load and link modules
 
         global.frostybot = {
@@ -27,7 +19,7 @@ module.exports = class frostybot_core_test {
         const dir = __dirname.substr(0, __dirname.lastIndexOf( '/' ) );
 
         const dbcfgfile = dir + '/.dbcfg';
-        var dbcfgjson = fs.readFileSync(dbcfgfile, {encoding:'utf8', flag:'r'}); 
+        var dbcfgjson = fs.readFileSync(dbcfgfile, {encoding:'utf8', flag:'r'});
         if (dbcfgjson.length > 0) {
             var dbcfg = JSON.parse(dbcfgjson);
             var dbtype = (dbcfg.hasOwnProperty('type') ? dbcfg.type : 'sqlite').toLowerCase();
@@ -44,7 +36,7 @@ module.exports = class frostybot_core_test {
                 var module = file.split('.')[1];
                 var mod = require('../core/mod.' + module)
                 var obj = (typeof(mod) == 'function') ? new mod() : mod
-                global.frostybot._modules_[module] = obj    
+                global.frostybot._modules_[module] = obj
             }
         });
 

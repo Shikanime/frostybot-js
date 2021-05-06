@@ -44,11 +44,6 @@ const port = app.get('port');
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-server.on('upgrade', (request, socket, head) => {
-  global.frostybot.wss.handleUpgrade(request, socket, head, socket => {
-    global.frostybot.wss.emit('connection', socket, request);
-  });
-});
 
 /**
  * Event listener for HTTP server "error" event.
