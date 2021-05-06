@@ -3,14 +3,6 @@
 CURRENTPATH=`pwd`
 SCRIPTPATH=`dirname "$(readlink -f "$0")"`
 ROOTPATH=`dirname "$SCRIPTPATH"`
-PORTCFG="$ROOTPATH/.port"
-
-if [ -f "$PORTCFG" ]; then
-    PORT=`cat $PORTCFG`
-else
-    PORT=80
-fi
-
 
 PID=`sudo ps -ax | grep "fb-$PORT" | grep -v "grep" | awk '{print $1}'`
 
@@ -28,6 +20,6 @@ else
                 sleep 2
                 PID=`sudo ps -ax | grep "fb-$PORT" | grep -v "grep" | awk '{print $1}'`
         done
-        echo "Frostybot server started on port $PORT"        
+        echo "Frostybot server started on port $PORT"
 	cd "$CURRENTPATH" &
 fi

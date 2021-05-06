@@ -212,14 +212,7 @@ module.exports = class frostybot_core_module extends frostybot_module {
     // Get port
 
     async port() {
-        const portfile = (__dirname).replace('/core','') + '/.port';
-        var port = 80
-        try {
-          var port = fs.readFileSync(portfile, {encoding:'utf8', flag:'r'})
-        } catch {
-          var port = (process.env.PORT || 80);
-        }
-        return port;
+        return process.env.PORT ||8080;
     }
 
     // Get loopback URL

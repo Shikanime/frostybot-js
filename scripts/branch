@@ -3,13 +3,6 @@
 CURRENTPATH=`pwd`
 SCRIPTPATH=`dirname "$(readlink -f "$0")"`
 ROOTPATH=`dirname "$SCRIPTPATH"`
-PORTCFG="$ROOTPATH/.port"
-
-if [ -f "$PORTCFG" ]; then
-    PORT=`cat $PORTCFG`
-else
-    PORT=80
-fi
 
 PID=`sudo ps -ax | grep "fb-$PORT" | grep -v "grep" | awk '{print $1}'`
 BRANCH=`echo "$@"`
@@ -36,16 +29,14 @@ sudo tar czvf ~/$TS.tar.gz /usr/local/frostybot-js  > /dev/null 2>&1
 mkdir -p "/tmp/$TS"
 sudo cp ./database/database.* /tmp/$TS/
 sudo cp ./.dbcfg /tmp/$TS/
-sudo cp ./.port /tmp/$TS/
 sudo cp ./.proxy /tmp/$TS/
 echo "Switching branch..."
 #sudo git stash
-sudo git stash 
+sudo git stash
 sudo git checkout $BRANCH
 sudo git pull -f
 sudo cp -f /tmp/$TS/database.* database/
 sudo cp -f /tmp/$TS/.dbcfg ./.dbcfg
-sudo cp -f /tmp/$TS/.port ./.port
 sudo cp -f /tmp/$TS/.proxy ./.proxy
 echo "Updating MOTD"
 sudo cp -f /usr/local/frostybot-js/scripts/motd /etc/motd

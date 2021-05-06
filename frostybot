@@ -3,14 +3,6 @@
 COMMAND="$@"
 CURRENTPATH=`pwd`
 SCRIPTPATH=`dirname "$(readlink -f "$0")"`
-PORTCFG="$SCRIPTPATH/.port"
-
-if [ -f "$PORTCFG" ]; then
-    PORT=`cat $PORTCFG`
-else
-    PORT=80
-fi
-
 
 URL="http://127.0.0.1:$PORT/frostybot"
 

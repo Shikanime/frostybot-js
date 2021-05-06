@@ -2,13 +2,6 @@
 
 SCRIPTPATH=`dirname "$(readlink -f "$0")"`
 ROOTPATH=`dirname "$SCRIPTPATH"`
-PORTCFG="$ROOTPATH/.port"
-
-if [ -f "$PORTCFG" ]; then
-    PORT=`cat $PORTCFG`
-else
-    PORT=80
-fi
 
 PID=`sudo ps -ax | grep "fb-$PORT" | grep -v "grep" | awk '{print $1}'`
 TESTS=`echo "$@" | xargs | sed -e 's/,/ /g'`

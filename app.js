@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-const fs = require('fs'); 
+const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 var context = require('express-http-context');
 const cookieParser = require('cookie-parser');
@@ -21,15 +21,8 @@ var app = express();
 
 // Get Listen Port
 
-const portfile = __dirname + '/.port';
-var port = 80
-try {
-  var port = fs.readFileSync(portfile, {encoding:'utf8', flag:'r'}) 
-} catch {
-  var port = 80;
-}
+var port =8080
 app.set('port', port);
-fs.writeFileSync(portfile, port.toString())
 
 // Set App Title
 
@@ -84,7 +77,7 @@ app.set('views', __dirname + '/views');
 app.use(express.static('views/assets'))
 
 // Router Configuration
-  
+
 app.use('/rest', apiRouter);      // REST API
 app.use('/frostybot', apiRouter); // WebSocket API
 app.use('/ui', guiRouter);        // GUI
