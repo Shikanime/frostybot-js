@@ -7,5 +7,5 @@ COPY package*.json ./
 RUN npm install
 RUN ln -s /usr/local/frostybot-js/frostybot /usr/bin/frostybot
 EXPOSE $PORT
-ENTRYPOINT [ "frostybot" ]
-CMD [ "start" ]
+RUN ./scripts/dbupgrade
+CMD [ "npm", "start" ]
