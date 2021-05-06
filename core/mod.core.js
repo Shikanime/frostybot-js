@@ -8,17 +8,17 @@ var cidrcheck = require("ip-range-check");
 // Methods exported to the API
 
 const api_methods = {
-    
+
     accounts: [
-        'get', 
-        'add', 
-        'delete', 
+        'get',
+        'add',
+        'delete',
         'test',
     ],
 
     cache: [
-        'flush', 
-        'stats', 
+        'flush',
+        'stats',
     ],
 
     config: [
@@ -27,24 +27,24 @@ const api_methods = {
     ],
 
     trade: [
-        'long', 
-        'short', 
-        'buy', 
-        'sell', 
-        'stoploss', 
-        'takeprofit', 
-        'trailstop', 
+        'long',
+        'short',
+        'buy',
+        'sell',
+        'stoploss',
+        'takeprofit',
+        'trailstop',
         'tpsl',
-        'close', 
+        'close',
         'closeall',
-        'market', 
-        'markets', 
-        'balances', 
-        'position', 
-        'positions', 
-        'order', 
-        'orders', 
-        'cancel', 
+        'market',
+        'markets',
+        'balances',
+        'position',
+        'positions',
+        'order',
+        'orders',
+        'cancel',
         'cancelall',
         'leverage',
         'pnl',
@@ -55,20 +55,20 @@ const api_methods = {
         'get',
         'set',
     ],
-    
+
     symbolmap:  [
-        'get', 
-        'add', 
-        'delete', 
+        'get',
+        'add',
+        'delete',
     ],
 
     whitelist:  [
-        'get', 
-        'add', 
+        'get',
+        'add',
         'delete',
         'verify',
         'enable',
-        'disable', 
+        'disable',
     ],
 
     user: [
@@ -197,9 +197,9 @@ module.exports = class frostybot_core_module extends frostybot_module {
                 })
             })
         } catch {
-        
+
         }
-        return ips.includes(ip);        
+        return ips.includes(ip);
     }
 
     // Get proxies
@@ -215,11 +215,11 @@ module.exports = class frostybot_core_module extends frostybot_module {
         const portfile = (__dirname).replace('/core','') + '/.port';
         var port = 80
         try {
-          var port = fs.readFileSync(portfile, {encoding:'utf8', flag:'r'}) 
+          var port = fs.readFileSync(portfile, {encoding:'utf8', flag:'r'})
         } catch {
-          var port = (process.env.FROSTYBOT_PORT || 80);
-        } 
-        return port;       
+          var port = (process.env.PORT || 80);
+        }
+        return port;
     }
 
     // Get loopback URL
@@ -313,7 +313,7 @@ module.exports = class frostybot_core_module extends frostybot_module {
             context.set('uuid', uuid);
             return (all_ip_allowed.includes(command) ? true : await this.whitelist.verify(ip));
         }
-            
+
         if (!localhost && isapi && multiuser && param_uuid == null && token_uuid == null) {
             //uuid = core_uuid;
             this.output.debug('access_api_core')
@@ -349,7 +349,7 @@ module.exports = class frostybot_core_module extends frostybot_module {
         // Raw request body
         return this.parse_raw(request.rawBody);
     }
-    
+
 
     // Parse raw text into parameter object
 
@@ -372,10 +372,10 @@ module.exports = class frostybot_core_module extends frostybot_module {
                             }
                             var [key, val] = param.split('=');
                             paramObj[key] = val;
-                        } 
+                        }
                     }
                     commands.push(paramObj);
-                }    
+                }
             }
         }
         return (commands.length == 1 ? commands[0] : commands);
@@ -384,11 +384,11 @@ module.exports = class frostybot_core_module extends frostybot_module {
     // Parse Command Parameter Object
 
     parse_obj(params) {
-        params = this.utils.clean_object(params);      
+        params = this.utils.clean_object(params);
         var command = this.utils.extract_props(params, 'command').toLowerCase();
-        if (command == undefined) 
+        if (command == undefined)
             return this.output.error('required_param', ['command']);
-        if (command.indexOf(':') < 0) 
+        if (command.indexOf(':') < 0)
             return this.output.error('malformed_param', ['command']);
         var parts = command.split(':');
         var numparts = parts.length;
@@ -439,7 +439,7 @@ module.exports = class frostybot_core_module extends frostybot_module {
         }
         return false;
     }
-    
+
 
     // Execute Frostybot Command(s)
 
@@ -449,9 +449,9 @@ module.exports = class frostybot_core_module extends frostybot_module {
         if (this.utils.is_object(params) && params.hasOwnProperty('0') && params['0'].hasOwnProperty('command')) {
             params = Object.values(params);
         }
-        if (this.utils.is_array(params)) {                          
+        if (this.utils.is_array(params)) {
             var results = await this.execute_multiple(params, raw);  // Multiple commands submitted
-        } else {        
+        } else {
             var results = await this.execute_single(params, raw);     // Single command submitted
         }
         return results;
@@ -469,14 +469,14 @@ module.exports = class frostybot_core_module extends frostybot_module {
             var params = multi_params[i];
             if (this.utils.is_object(params)) {
                 var result = await this.execute_single(params, raw);
-                results.push(result);    
+                results.push(result);
             }
         }
         return await this.output.combine(results);
     }
 
     // Execute a Single Command
-    
+
     async execute_single(params, raw) {
         var parsed = this.parse_obj(params);
         if (parsed.length == 3) {
@@ -486,7 +486,7 @@ module.exports = class frostybot_core_module extends frostybot_module {
             //this.output.notice('command_params', [{ ...{ command: module + ":" + method}, ...(this.utils.remove_props(params,['_raw_'])) }]);
             this.output.notice('command_params', [{ ...{ command: module + ":" + method}, ...params }]);
             if (this.load_module(module)) {
-                //this.output.debug('loaded_module', module)    
+                //this.output.debug('loaded_module', module)
                 var method = this.utils.is_array(method.split(':')) ? method.split(':')[0] : method;
                 if (params.hasOwnProperty('uuid')) {
                     context.set('uuid', params.uuid);
@@ -494,7 +494,7 @@ module.exports = class frostybot_core_module extends frostybot_module {
 
                 if (this.method_exists(module, method)) {
 
-                    // Check permissions to execute 
+                    // Check permissions to execute
                     var permissionset = await this.settings.get('core', 'permissionset', 'standard');
                     if (!['standard','provider'].includes(permissionset))
                         permissionset = 'standard';
@@ -517,7 +517,7 @@ module.exports = class frostybot_core_module extends frostybot_module {
                             if (mapping !== false) {
                                 this.output.notice('symbol_mapping', [exchangeid, 'default', mapping])
                                 params.symbol = mapping;
-                            } 
+                            }
                         }
                     }
 
@@ -526,7 +526,7 @@ module.exports = class frostybot_core_module extends frostybot_module {
                         var stub = params.stub.toLowerCase()
                         if (this.accounts.getaccount(stub) === false) {
                             return await this.output.parse(this.output.error('unknown_stub', stub))
-                        } 
+                        }
                         params.stub = stub
                         context.set('stub', stub);
                     }
@@ -559,7 +559,7 @@ module.exports = class frostybot_core_module extends frostybot_module {
                                     params.symbol = mapping.toUpperCase();
                                 }
                                 params.symbol = params.symbol.toUpperCase();
-                            
+
                                 // Check that market symbol is valid
 
                                 let result = await exchange.execute(stub, 'market', {symbol: params.symbol});
@@ -571,7 +571,7 @@ module.exports = class frostybot_core_module extends frostybot_module {
                     }
 
                     if (params.hasOwnProperty('uuid')) delete params.uuid;
-                    if (raw !== null) 
+                    if (raw !== null)
                         params['_raw_'] = raw;
                     var result = null;
                     try {
@@ -581,19 +581,19 @@ module.exports = class frostybot_core_module extends frostybot_module {
                         result = false;
                     }
                     var end = (new Date).getTime();
-                    var duration = (end - start) / 1000;            
+                    var duration = (end - start) / 1000;
                     this.output.notice('command_completed', duration);
                     return await this.output.parse(result);
 
                 } else {
-                    return await this.output.parse(this.output.error('unknown_method', method));  
+                    return await this.output.parse(this.output.error('unknown_method', method));
                 }
             } else {
-                return await this.output.parse(this.output.error('unknown_module', (module == 'this' ? 'Invalid format' : module)));  
+                return await this.output.parse(this.output.error('unknown_module', (module == 'this' ? 'Invalid format' : module)));
             }
         }
         return await this.output.parse(this.output.error('malformed_param', parsed));
-    } 
+    }
 
 
 

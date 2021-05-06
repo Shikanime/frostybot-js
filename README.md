@@ -3,12 +3,12 @@
 ## Frostybot-JS : A NodeJS API endpoint for Cryptocurrency Trading
 
 FrostyBot-JS is an API endpoint for REST and webhooks that is designed to receive API requests, such as Tradingview webhooks, and to submit them as orders to a cryptocurrency exchange.
- 
+
 The way it works is simple:
 
 * Commands can be sent to Frostybot via Tradingview alerts (webhooks), a REST API, or the Linux commandline interface (CLI)
 * Frostybot converts the commands into orders and submits them to the exchange
-* There are six main trading commands, namely: 
+* There are six main trading commands, namely:
   * **long** : Create a long order for the size provided. If you are already long, the order size will be adjusted so that the resulting position size equals the size you provided. If you are currently short, the order size will be adjusted so that your resulting position will be long the size you requested.
   * **short** : The inverse of the long command above
   * **buy**: Will create a simple order that will buy the amount requested
@@ -37,9 +37,9 @@ We kindly ask that you fully [**read the documentation**](https://github.com/Cry
 Use this API at your own risk. The authors accept no responsibility for losses incurred through using this software. This is a 0.x release which means it's beta software. So it may and probably will have some bugs. We strongly advise you to use a sub-account with a limited balance, or a testnet account to ensure that the bot is profitable before going live with any strategy. While we have gone to great lengths to test the software, if you do find any bugs, please report them to us in the [FrostyBot Discord Server](https://discord.gg/yK4U93s) or on Github, and we will sort them out. Remember that risk management is your responsibility. If you lose your account, that's entirely on you.
 
 ## Supported Exchanges
-Currently Bitmex, FTX, Deribit, Binance (Spot, Margin, USDT and Coin-M Futures) and BinanceUS are supported. But we will add support for others in the near future. 
+Currently Bitmex, FTX, Deribit, Binance (Spot, Margin, USDT and Coin-M Futures) and BinanceUS are supported. But we will add support for others in the near future.
 
-## Scope      
+## Scope
 This bot is specifically designed to execute orders based on webhook or REST API requests. These can be from Tradingview, or any other software that can execute webhooks.
 
 While it may seem a little complicated to setup and configure for novices, the point of Frostybot is that it's entirely free. You retain total control over your API keys and trading engine. It is perfect for integration projects where you have a trading engine (like a Tradingview strategy or some custom Python script) that you want to integrate it with your exchange.
@@ -63,7 +63,7 @@ Frostybot can be deployed in 3 supported ways. Depending on your personal deploy
 
 To install Frostybot-JS on Ubuntu 20.04 LTS, run these commands:
 ```
-curl -skL https://tinyurl.com/frostybot-js -o /tmp/install.sh 
+curl -skL https://tinyurl.com/frostybot-js -o /tmp/install.sh
 sudo chmod +x /tmp/install.sh
 sudo /tmp/install.sh
 ````
@@ -72,15 +72,6 @@ If you would like to monitor the install progress, you can tail the installer lo
 #### Option 2 - Use Docker
 
 If you would prefer to use Docker, the latest docker image is available at **frostyio/frostybot-js:latest**
-
-The following Docker environment variables are available:
-
-| Variable | Description | Default Value |
-| --- | --- | --- |
-| FROSTYBOT_PORT  |  The port that Frostybot should listen on  |  80  |
-| SSH_PORT  |  The port that SSH should listen on  |  22   |
-| SSH_USER  |  SSH Username |  frostybot  |
-| SSH_PASS  |  SSH Password **(NEVER leave this as default)**  |  \_\_frostybot123\_\_  |
 
 ## Post-Install Configuration
 
@@ -130,7 +121,7 @@ Frostybot can take orders from the commandline and from webhooks or API requests
    frostybot trade:mystub:orders                                     (Get list of orders from the exchange)
    frostybot trade:mystub:order status=open                          (Get list of open orders)
    frostybot trade:mystub:market symbol=SOL/USD                      (Get market info for the SOL/USD pair)
-   frostybot trade:mystub:balances                                   (Get current equity balances from the exchange)     
+   frostybot trade:mystub:balances                                   (Get current equity balances from the exchange)
 ```
 
 #### Basic Trading Commands
@@ -156,7 +147,7 @@ If you love our work, show us some love:
 * **BTC:** 3QV4xXXDSAXm31kLZHRFrznoS7Qv8BWAri
 * **ETH:** 0xBd6E3c74024B021b5c94eEF8EB8e5bEEF04b57aD
 * **LTC:** ML7A2xDMegLMPd8VqHCJyAG21U981boA5F
- 
+
 ## Report Bugs
 
 If you find a bug in the software, kindly report it [here](https://github.com/CryptoMF/frostybot-js/issues/new) so that we can properly track it.
