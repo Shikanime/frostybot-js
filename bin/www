@@ -15,15 +15,6 @@ const ws = require('ws');
 
 global.frostybot.wss = new ws.Server({ noServer: true });
 
-global.frostybot.wss.on('connection', function connection(socket) {
-  socket.on('message', function(msg) {
-    //if (msg == 'PING') {
-    //  socket.send('PONG');
-    //}
-  });
-
-});
-
 global.frostybot.wss.on('proxy', function (result) {
   global.frostybot.wss.clients.forEach(function each(client) {
     client.send(JSON.stringify(result));
